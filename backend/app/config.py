@@ -33,10 +33,8 @@ class Settings(BaseSettings):
     backend_port: int = 8000
 
     # Database configuration
-    database_url: str = (
-        "postgresql://medrecon:medrecon@localhost:5432/medrecon"
-    )
-
+    database_url: str = "sqlite:///./medrecon.db"
+    
     # AI/LLM configuration
     llm_provider: str | None = None
     llm_api_key: str | None = None
