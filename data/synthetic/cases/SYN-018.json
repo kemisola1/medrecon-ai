@@ -1,0 +1,21 @@
+{
+  "case_id": "SYN-018",
+  "title": "Patient-reported medication discrepancy",
+  "description": "The prescription record and patient report disagree about the medication frequency.",
+  "sources": [
+    {
+      "source_id": "SRC-018-A",
+      "type": "prescription",
+      "name": "Prescription Record",
+      "date": "2026-08-26",
+      "text": "Furosemide 40 mg orally once daily."
+    },
+    {
+      "source_id": "SRC-018-B",
+      "type": "patient_report",
+      "name": "Patient Interview",
+      "date": "2026-08-28",
+      "text": "Patient reports taking Furosemide 40 mg twice daily."
+    }
+  ]
+}

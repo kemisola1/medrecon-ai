@@ -1,0 +1,40 @@
+{
+  "case_id": "SYN-020",
+  "expected_medications": [
+    {
+      "medication_name": "Metformin",
+      "dose": "500 mg",
+      "frequency": "twice daily",
+      "route": "oral",
+      "status": "current"
+    },
+    {
+      "medication_name": "Amlodipine",
+      "dose": null,
+      "frequency": "once daily",
+      "route": "oral",
+      "status": "conflicting"
+    },
+    {
+      "medication_name": "Lisinopril",
+      "dose": "10 mg",
+      "frequency": "once daily",
+      "route": "oral",
+      "status": "discontinued"
+    },
+    {
+      "medication_name": "Atorvastatin",
+      "dose": "20 mg",
+      "frequency": "once daily",
+      "route": "oral",
+      "status": "recently_added"
+    }
+  ],
+  "expected_discrepancies": [
+    {
+      "medication_name": "Amlodipine",
+      "type": "dose_conflict",
+      "severity": "medium"
+    }
+  ]
+}

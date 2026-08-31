@@ -1,0 +1,20 @@
+{
+    "case_id": "SYN-001",
+    "expected_medications": [
+      {
+        "medication_name": "Metformin",
+        "dose": "500 mg",
+        "frequency": "twice daily",
+        "route": "oral",
+        "status": "current"
+      },
+      {
+        "medication_name": "Amlodipine",
+        "dose": "5 mg",
+        "frequency": "once daily",
+        "route": "oral",
+        "status": "current"
+      }
+    ],
+    "expected_discrepancies": []
+  }

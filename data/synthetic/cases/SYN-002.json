@@ -1,0 +1,21 @@
+{
+    "case_id": "SYN-002",
+    "title": "Dose conflict across sources",
+    "description": "Two recent sources disagree about the current Metformin dose.",
+    "sources": [
+      {
+        "source_id": "SRC-002-A",
+        "type": "prescription",
+        "name": "Primary Care Prescription",
+        "date": "2026-08-18",
+        "text": "Metformin 500 mg orally twice daily."
+      },
+      {
+        "source_id": "SRC-002-B",
+        "type": "clinical_note",
+        "name": "Diabetes Follow-up Note",
+        "date": "2026-08-24",
+        "text": "Patient reports taking Metformin 1000 mg twice daily."
+      }
+    ]
+  }

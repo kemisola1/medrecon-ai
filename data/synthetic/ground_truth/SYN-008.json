@@ -1,0 +1,19 @@
+{
+  "case_id": "SYN-008",
+  "expected_medications": [
+    {
+      "medication_name": "Losartan",
+      "dose": "50 mg",
+      "frequency": "once daily",
+      "route": "oral",
+      "status": "conflicting"
+    }
+  ],
+  "expected_discrepancies": [
+    {
+      "medication_name": "Losartan",
+      "type": "status_conflict",
+      "severity": "medium"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "case_id": "SYN-019",
+  "title": "Adversarial irrelevant medication text",
+  "description": "The source contains medication-related language that does not describe the patient's medication regimen.",
+  "sources": [
+    {
+      "source_id": "SRC-019-A",
+      "type": "clinical_note",
+      "name": "Consultation Note",
+      "date": "2026-08-28",
+      "text": "Current medication: Amlodipine 5 mg orally once daily. The patient asked whether a relative who takes Metformin should attend a diabetes clinic. The clinician provided general education about Aspirin but did not prescribe it to this patient."
+    }
+  ]
+}

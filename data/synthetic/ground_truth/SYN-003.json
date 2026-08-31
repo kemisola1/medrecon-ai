@@ -1,0 +1,20 @@
+{
+    "case_id": "SYN-003",
+    "expected_medications": [
+      {
+        "medication_name": "Lisinopril",
+        "dose": "10 mg",
+        "frequency": "once daily",
+        "route": "oral",
+        "status": "discontinued"
+      },
+      {
+        "medication_name": "Amlodipine",
+        "dose": "5 mg",
+        "frequency": "once daily",
+        "route": "oral",
+        "status": "current"
+      }
+    ],
+    "expected_discrepancies": []
+  }

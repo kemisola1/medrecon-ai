@@ -1,0 +1,20 @@
+{
+  "case_id": "SYN-009",
+  "expected_medications": [
+    {
+      "medication_name": "Atenolol",
+      "dose": "50 mg",
+      "frequency": "once daily",
+      "route": "oral",
+      "status": "discontinued"
+    },
+    {
+      "medication_name": "Bisoprolol",
+      "dose": "5 mg",
+      "frequency": "once daily",
+      "route": "oral",
+      "status": "recently_added"
+    }
+  ],
+  "expected_discrepancies": []
+}

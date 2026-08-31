@@ -1,0 +1,14 @@
+{
+  "case_id": "SYN-012",
+  "title": "Medication with missing frequency",
+  "description": "A medication dose is documented but frequency is absent.",
+  "sources": [
+    {
+      "source_id": "SRC-012-A",
+      "type": "clinical_note",
+      "name": "Medication Review",
+      "date": "2026-08-27",
+      "text": "Current medication includes Amlodipine 5 mg orally."
+    }
+  ]
+}

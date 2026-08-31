@@ -1,0 +1,21 @@
+{
+  "case_id": "SYN-010",
+  "title": "Brand and generic medication names",
+  "description": "Different sources use brand and generic names for the same medication.",
+  "sources": [
+    {
+      "source_id": "SRC-010-A",
+      "type": "prescription",
+      "name": "Prescription",
+      "date": "2026-08-20",
+      "text": "Norvasc 5 mg orally once daily."
+    },
+    {
+      "source_id": "SRC-010-B",
+      "type": "clinical_note",
+      "name": "Follow-up Note",
+      "date": "2026-08-27",
+      "text": "Continue Amlodipine 5 mg orally once daily."
+    }
+  ]
+}

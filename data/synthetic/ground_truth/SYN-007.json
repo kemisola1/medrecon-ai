@@ -1,0 +1,13 @@
+{
+  "case_id": "SYN-007",
+  "expected_medications": [
+    {
+      "medication_name": "Diclofenac",
+      "dose": null,
+      "frequency": "twice daily",
+      "route": "topical",
+      "status": "changed"
+    }
+  ],
+  "expected_discrepancies": []
+}

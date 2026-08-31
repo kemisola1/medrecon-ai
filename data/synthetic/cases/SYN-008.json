@@ -1,0 +1,21 @@
+{
+  "case_id": "SYN-008",
+  "title": "Conflicting medication status",
+  "description": "Two recent sources disagree about whether Losartan is current.",
+  "sources": [
+    {
+      "source_id": "SRC-008-A",
+      "type": "prescription",
+      "name": "Current Prescription",
+      "date": "2026-08-25",
+      "text": "Losartan 50 mg orally once daily."
+    },
+    {
+      "source_id": "SRC-008-B",
+      "type": "patient_report",
+      "name": "Patient Medication Report",
+      "date": "2026-08-26",
+      "text": "Patient reports that Losartan was stopped and is no longer being taken."
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+    "case_id": "SYN-001",
+    "title": "Clean medication reconciliation",
+    "description": "Multiple sources consistently describe the same current medications.",
+    "sources": [
+      {
+        "source_id": "SRC-001-A",
+        "type": "prescription",
+        "name": "Current Prescription",
+        "date": "2026-08-20",
+        "text": "Metformin 500 mg orally twice daily. Amlodipine 5 mg orally once daily."
+      },
+      {
+        "source_id": "SRC-001-B",
+        "type": "clinical_note",
+        "name": "Follow-up Clinical Note",
+        "date": "2026-08-25",
+        "text": "Patient continues Metformin 500 mg twice daily and Amlodipine 5 mg once daily."
+      }
+    ]
+  }

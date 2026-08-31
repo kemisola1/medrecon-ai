@@ -1,0 +1,22 @@
+{
+    "case_id": "SYN-004",
+    "title": "New medication added",
+    "description": "A newer source adds Atorvastatin while continuing the previously documented medications.",
+    "sources": [
+      {
+        "source_id": "SRC-004-A",
+        "type": "clinical_note",
+        "name": "Primary Care Follow-up",
+        "date": "2026-08-12",
+        "text": "Current medications: Metformin 500 mg orally twice daily and Amlodipine 5 mg orally once daily."
+      },
+      {
+        "source_id": "SRC-004-B",
+        "type": "prescription",
+        "name": "Updated Prescription",
+        "date": "2026-08-27",
+        "text": "Continue Metformin 500 mg orally twice daily and Amlodipine 5 mg orally once daily. Start Atorvastatin 20 mg orally once daily."
+      }
+    ]
+  }
+  

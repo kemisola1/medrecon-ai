@@ -1,0 +1,20 @@
+{
+  "case_id": "SYN-016",
+  "expected_medications": [
+    {
+      "medication_name": "Simvastatin",
+      "dose": "20 mg",
+      "frequency": "nightly",
+      "route": null,
+      "status": "discontinued"
+    },
+    {
+      "medication_name": "Atorvastatin",
+      "dose": "20 mg",
+      "frequency": "once daily",
+      "route": "oral",
+      "status": "current"
+    }
+  ],
+  "expected_discrepancies": []
+}

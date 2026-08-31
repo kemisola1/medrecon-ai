@@ -1,0 +1,20 @@
+{
+    "case_id": "SYN-002",
+    "expected_medications": [
+      {
+        "medication_name": "Metformin",
+        "dose": null,
+        "frequency": "twice daily",
+        "route": "oral",
+        "status": "conflicting"
+      }
+    ],
+    "expected_discrepancies": [
+      {
+        "medication_name": "Metformin",
+        "type": "dose_conflict",
+        "severity": "medium",
+        "description": "Recent sources disagree on whether the Metformin dose is 500 mg or 1000 mg."
+      }
+    ]
+  }

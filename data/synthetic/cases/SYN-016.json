@@ -1,0 +1,14 @@
+{
+  "case_id": "SYN-016",
+  "title": "Historical medication mention",
+  "description": "A medication appears only as historical treatment and must not be classified as current.",
+  "sources": [
+    {
+      "source_id": "SRC-016-A",
+      "type": "clinical_note",
+      "name": "Current Consultation",
+      "date": "2026-08-28",
+      "text": "Patient previously used Simvastatin 20 mg nightly but stopped it in 2025. Current medication is Atorvastatin 20 mg orally once daily."
+    }
+  ]
+}

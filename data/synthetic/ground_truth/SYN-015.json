@@ -1,0 +1,27 @@
+{
+  "case_id": "SYN-015",
+  "expected_medications": [
+    {
+      "medication_name": "Warfarin",
+      "dose": "5 mg",
+      "frequency": "once daily",
+      "route": "oral",
+      "status": "current"
+    },
+    {
+      "medication_name": "Trimethoprim-sulfamethoxazole",
+      "dose": "160/800 mg",
+      "frequency": "twice daily",
+      "route": "oral",
+      "status": "current"
+    }
+  ],
+  "expected_discrepancies": [],
+  "expected_interactions": [
+    {
+      "medication_a": "Warfarin",
+      "medication_b": "Trimethoprim-sulfamethoxazole",
+      "severity": "high"
+    }
+  ]
+}

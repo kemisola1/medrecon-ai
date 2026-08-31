@@ -1,0 +1,14 @@
+{
+  "case_id": "SYN-013",
+  "title": "Ambiguous medication identity",
+  "description": "A source contains an abbreviated medication name that should not be normalized by guessing.",
+  "sources": [
+    {
+      "source_id": "SRC-013-A",
+      "type": "manual",
+      "name": "Hand-entered Medication List",
+      "date": "2026-08-27",
+      "text": "Patient medication list includes 'MTX' once weekly."
+    }
+  ]
+}

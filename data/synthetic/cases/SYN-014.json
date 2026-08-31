@@ -1,0 +1,28 @@
+{
+  "case_id": "SYN-014",
+  "title": "Multiple conflicting documents",
+  "description": "Three sources contain inconsistent doses for the same medication.",
+  "sources": [
+    {
+      "source_id": "SRC-014-A",
+      "type": "clinical_note",
+      "name": "Clinic Note",
+      "date": "2026-08-20",
+      "text": "Gabapentin 100 mg orally three times daily."
+    },
+    {
+      "source_id": "SRC-014-B",
+      "type": "prescription",
+      "name": "Prescription",
+      "date": "2026-08-24",
+      "text": "Gabapentin 300 mg orally three times daily."
+    },
+    {
+      "source_id": "SRC-014-C",
+      "type": "patient_report",
+      "name": "Patient Report",
+      "date": "2026-08-25",
+      "text": "Patient reports taking Gabapentin 200 mg three times daily."
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "case_id": "SYN-020",
+  "title": "Complex multi-medication reconciliation",
+  "description": "Multiple sources contain continued, changed, discontinued, new, and conflicting medication information.",
+  "sources": [
+    {
+      "source_id": "SRC-020-A",
+      "type": "clinical_note",
+      "name": "Previous Medication List",
+      "date": "2026-08-10",
+      "text": "Metformin 500 mg orally twice daily. Amlodipine 5 mg orally once daily. Lisinopril 10 mg orally once daily."
+    },
+    {
+      "source_id": "SRC-020-B",
+      "type": "discharge_summary",
+      "name": "Discharge Summary",
+      "date": "2026-08-25",
+      "text": "Continue Metformin 500 mg orally twice daily. Increase Amlodipine to 10 mg orally once daily. Discontinue Lisinopril. Start Atorvastatin 20 mg orally once daily."
+    },
+    {
+      "source_id": "SRC-020-C",
+      "type": "patient_report",
+      "name": "Patient Interview",
+      "date": "2026-08-28",
+      "text": "Patient confirms Metformin 500 mg twice daily and Atorvastatin 20 mg once daily, but reports still taking Amlodipine 5 mg once daily."
+    }
+  ]
+}

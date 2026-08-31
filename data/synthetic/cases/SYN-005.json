@@ -1,0 +1,21 @@
+{
+    "case_id": "SYN-005",
+    "title": "Medication dose changed",
+    "description": "A newer clinical source explicitly increases the patient's Amlodipine dose from 5 mg to 10 mg once daily.",
+    "sources": [
+      {
+        "source_id": "SRC-005-A",
+        "type": "clinical_note",
+        "name": "Previous Primary Care Note",
+        "date": "2026-08-08",
+        "text": "Patient is taking Amlodipine 5 mg orally once daily."
+      },
+      {
+        "source_id": "SRC-005-B",
+        "type": "clinical_note",
+        "name": "Medication Review",
+        "date": "2026-08-28",
+        "text": "Increase Amlodipine from 5 mg to 10 mg orally once daily. Patient should continue on the new dose."
+      }
+    ]
+  }

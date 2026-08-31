@@ -1,0 +1,13 @@
+{
+    "case_id": "SYN-005",
+    "expected_medications": [
+      {
+        "medication_name": "Amlodipine",
+        "dose": "10 mg",
+        "frequency": "once daily",
+        "route": "oral",
+        "status": "changed"
+      }
+    ],
+    "expected_discrepancies": []
+  }

@@ -1,0 +1,19 @@
+{
+  "case_id": "SYN-014",
+  "expected_medications": [
+    {
+      "medication_name": "Gabapentin",
+      "dose": null,
+      "frequency": "three times daily",
+      "route": "oral",
+      "status": "conflicting"
+    }
+  ],
+  "expected_discrepancies": [
+    {
+      "medication_name": "Gabapentin",
+      "type": "dose_conflict",
+      "severity": "medium"
+    }
+  ]
+}

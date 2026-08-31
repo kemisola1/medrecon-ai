@@ -1,0 +1,21 @@
+{
+  "case_id": "SYN-009",
+  "title": "Older source versus newer source",
+  "description": "A newer medication list should take temporal precedence over an older historical regimen.",
+  "sources": [
+    {
+      "source_id": "SRC-009-A",
+      "type": "clinical_note",
+      "name": "Old Clinic Note",
+      "date": "2026-05-10",
+      "text": "Atenolol 50 mg orally once daily."
+    },
+    {
+      "source_id": "SRC-009-B",
+      "type": "clinical_note",
+      "name": "Current Clinic Note",
+      "date": "2026-08-28",
+      "text": "Atenolol was discontinued in June. Current medication is Bisoprolol 5 mg orally once daily."
+    }
+  ]
+}

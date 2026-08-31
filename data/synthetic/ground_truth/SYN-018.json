@@ -1,0 +1,19 @@
+{
+  "case_id": "SYN-018",
+  "expected_medications": [
+    {
+      "medication_name": "Furosemide",
+      "dose": "40 mg",
+      "frequency": null,
+      "route": "oral",
+      "status": "conflicting"
+    }
+  ],
+  "expected_discrepancies": [
+    {
+      "medication_name": "Furosemide",
+      "type": "frequency_conflict",
+      "severity": "medium"
+    }
+  ]
+}

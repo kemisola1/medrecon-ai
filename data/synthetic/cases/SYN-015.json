@@ -1,0 +1,14 @@
+{
+  "case_id": "SYN-015",
+  "title": "Potential medication interaction",
+  "description": "The reconciled medication set contains a synthetic interaction-screening scenario.",
+  "sources": [
+    {
+      "source_id": "SRC-015-A",
+      "type": "prescription",
+      "name": "Current Medication List",
+      "date": "2026-08-28",
+      "text": "Warfarin 5 mg orally once daily. Trimethoprim-sulfamethoxazole 160/800 mg orally twice daily."
+    }
+  ]
+}

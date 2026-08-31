@@ -1,0 +1,14 @@
+{
+  "case_id": "SYN-011",
+  "title": "Medication with missing dose",
+  "description": "A medication is documented as current but its dose is absent.",
+  "sources": [
+    {
+      "source_id": "SRC-011-A",
+      "type": "patient_report",
+      "name": "Patient Medication List",
+      "date": "2026-08-27",
+      "text": "Patient reports taking Metformin twice daily."
+    }
+  ]
+}

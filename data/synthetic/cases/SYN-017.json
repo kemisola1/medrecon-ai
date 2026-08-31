@@ -1,0 +1,21 @@
+{
+  "case_id": "SYN-017",
+  "title": "Medication restarted",
+  "description": "A previously discontinued medication is explicitly restarted.",
+  "sources": [
+    {
+      "source_id": "SRC-017-A",
+      "type": "clinical_note",
+      "name": "Previous Visit",
+      "date": "2026-07-15",
+      "text": "Metformin 500 mg twice daily was discontinued."
+    },
+    {
+      "source_id": "SRC-017-B",
+      "type": "prescription",
+      "name": "Current Prescription",
+      "date": "2026-08-28",
+      "text": "Restart Metformin 500 mg orally twice daily effective today."
+    }
+  ]
+}

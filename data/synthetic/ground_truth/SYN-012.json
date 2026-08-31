@@ -1,0 +1,19 @@
+{
+  "case_id": "SYN-012",
+  "expected_medications": [
+    {
+      "medication_name": "Amlodipine",
+      "dose": "5 mg",
+      "frequency": null,
+      "route": "oral",
+      "status": "uncertain"
+    }
+  ],
+  "expected_discrepancies": [
+    {
+      "medication_name": "Amlodipine",
+      "type": "missing_information",
+      "severity": "low"
+    }
+  ]
+}

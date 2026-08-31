@@ -1,0 +1,21 @@
+{
+  "case_id": "SYN-007",
+  "title": "Medication route changed",
+  "description": "A newer source explicitly changes the route of a medication.",
+  "sources": [
+    {
+      "source_id": "SRC-007-A",
+      "type": "clinical_note",
+      "name": "Previous Treatment Note",
+      "date": "2026-08-08",
+      "text": "Diclofenac 50 mg orally twice daily."
+    },
+    {
+      "source_id": "SRC-007-B",
+      "type": "clinical_note",
+      "name": "Updated Treatment Note",
+      "date": "2026-08-27",
+      "text": "Stop oral Diclofenac. Start Diclofenac topical gel applied twice daily."
+    }
+  ]
+}

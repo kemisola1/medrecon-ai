@@ -1,0 +1,19 @@
+{
+  "case_id": "SYN-013",
+  "expected_medications": [
+    {
+      "medication_name": "MTX",
+      "dose": null,
+      "frequency": "once weekly",
+      "route": null,
+      "status": "uncertain"
+    }
+  ],
+  "expected_discrepancies": [
+    {
+      "medication_name": "MTX",
+      "type": "missing_information",
+      "severity": "medium"
+    }
+  ]
+}

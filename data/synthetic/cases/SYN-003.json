@@ -1,0 +1,21 @@
+{
+    "case_id": "SYN-003",
+    "title": "Medication discontinued in newer source",
+    "description": "An older medication list shows Lisinopril as active, but a newer discharge summary documents that it was stopped.",
+    "sources": [
+      {
+        "source_id": "SRC-003-A",
+        "type": "clinical_note",
+        "name": "Outpatient Medication List",
+        "date": "2026-08-10",
+        "text": "Lisinopril 10 mg orally once daily. Amlodipine 5 mg orally once daily."
+      },
+      {
+        "source_id": "SRC-003-B",
+        "type": "discharge_summary",
+        "name": "Hospital Discharge Summary",
+        "date": "2026-08-26",
+        "text": "Lisinopril discontinued. Continue Amlodipine 5 mg orally once daily."
+      }
+    ]
+  }

@@ -1,0 +1,21 @@
+{
+    "case_id": "SYN-006",
+    "title": "Medication frequency changed",
+    "description": "A newer clinical source explicitly changes the patient's Metformin frequency from once daily to twice daily.",
+    "sources": [
+      {
+        "source_id": "SRC-006-A",
+        "type": "clinical_note",
+        "name": "Previous Diabetes Follow-up",
+        "date": "2026-08-09",
+        "text": "Patient is taking Metformin 500 mg orally once daily."
+      },
+      {
+        "source_id": "SRC-006-B",
+        "type": "prescription",
+        "name": "Updated Medication Order",
+        "date": "2026-08-28",
+        "text": "Change Metformin 500 mg from once daily to twice daily. Continue Metformin 500 mg orally twice daily."
+      }
+    ]
+  }

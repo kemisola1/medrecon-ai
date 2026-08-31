@@ -1,0 +1,13 @@
+{
+    "case_id": "SYN-006",
+    "expected_medications": [
+      {
+        "medication_name": "Metformin",
+        "dose": "500 mg",
+        "frequency": "twice daily",
+        "route": "oral",
+        "status": "changed"
+      }
+    ],
+    "expected_discrepancies": []
+  }
