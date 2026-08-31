@@ -1,75 +1,51 @@
 # MedRecon AI — Reproduction Guide
 
-## 1. Purpose
+This guide explains how to reproduce the MedRecon AI baseline, agent iterations, final V3 system, and evaluation results from a clean environment.
 
-This guide explains how to reproduce the MedRecon AI hackathon MVP from a clean environment.
-
-It covers:
-
-- backend setup
-- frontend setup
-- baseline execution
-- V1 evaluation
-- V2 evaluation
-- V3 evaluation
-- end-to-end demo execution
-- output locations
-- expected metrics
-- environment versions
-
-The project uses synthetic medication data only.
-
----
-
-# 2. Reference Environment
+## 1. Reference Environment
 
 The project was developed and tested using:
 
 ```text
-Python 3.12.6
-Node.js v20.18.0
-npm 10.9.0
+Operating System: Windows
+Python: 3.12.6
+Node.js: v20.18.0
+npm: 10.9.0
 ```
 
-Operating system used during development:
-
-```text
-Windows
-```
-
-The repository is available at:
-
-```text
-https://github.com/kemisola1/medrecon-ai
-```
+Different compatible operating systems may also work, but the commands below reflect the reference Windows environment.
 
 ---
 
-# 3. Clone the Repository
-
-Run:
+## 2. Clone the Repository
 
 ```bash
 git clone https://github.com/kemisola1/medrecon-ai.git
 cd medrecon-ai
 ```
 
-Repository structure:
+---
+
+## 3. Project Structure
+
+Important project locations include:
 
 ```text
-medrecon-ai/
-├── backend/
-├── frontend/
-├── data/
-├── docs/
-├── outputs/
-├── scripts/
-└── README.md
+backend/
+frontend/
+data/
+outputs/
+scripts/
+docs/
 ```
+
+The project uses synthetic medication-reconciliation cases for hackathon evaluation.
+
+No real patient data is required.
 
 ---
 
-# 4. Backend Setup
+## 4. Backend Setup
 
 Navigate to the backend:
 
@@ -77,44 +53,44 @@ Navigate to the backend:
 cd backend
 ```
 
-Optional but recommended: create a virtual environment.
-
-On Windows:
+Create a virtual environment:
 
 ```bash
 python -m venv .venv
+```
+
+Activate it on Windows:
+
+```bash
 .venv\Scripts\activate
 ```
 
-Install dependencies:
+Install the backend dependencies using the dependency file included in the repository.
+
+For example:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Run the backend test suite:
+Return to the repository root when running evaluation scripts:
 
 ```bash
-python -m pytest
-```
-
-Start the FastAPI development server:
-
-```bash
-python -m uvicorn app.main:app --reload
-```
-
-Expected local API address:
-
-```text
-http://127.0.0.1:8000
+cd ..
 ```
 
 ---
 
-# 5. Verify the Backend
+## 5. Verify the Backend
 
-With the server running, open:
+Start the FastAPI application:
+
+```bash
+cd backend
+python -m uvicorn app.main:app --reload
+```
+
+Open:
 
 ```text
 http://127.0.0.1:8000/health
@@ -130,513 +106,156 @@ Expected response:
 }
 ```
 
-FastAPI interactive documentation is available at:
+Stop the server when necessary with:
 
 ```text
-http://127.0.0.1:8000/docs
+Ctrl + C
 ```
 
----
-
-# 6. Frontend Setup
-
-Open a second terminal from the repository root.
-
-Navigate to the frontend:
+Return to the project root:
 
 ```bash
-cd frontend
-```
-
-Install dependencies:
-
-```bash
-npm install
-```
-
-Start the Next.js development server:
-
-```bash
-npm run dev
-```
-
-Expected local frontend address:
-
-```text
-http://localhost:3000
-```
-
-Keep both servers running:
-
-```text
-Frontend:
-http://localhost:3000
-
-Backend:
-http://127.0.0.1:8000
+cd ..
 ```
 
 ---
 
-# 7. End-to-End Demo
+# 6. Evaluation Dataset
 
-Open:
+MedRecon AI is evaluated on a fixed set of 20 synthetic medication-reconciliation cases.
 
-```text
-http://localhost:3000
-```
+The cases are designed to test situations including:
 
-The MedRecon AI demo page contains a synthetic medication case.
+* medication identity
+* dose changes
+* frequency changes
+* route changes
+* discontinuation
+* restarting medications
+* recently added medications
+* conflicting medication sources
+* ambiguous medication identity
+* irrelevant clinical text
+* medication discrepancies
+* medication interaction screening
 
-Click:
-
-```text
-Run MedRecon
-```
-
-The frontend sends the case to:
-
-```text
-POST /reconcile
-```
-
-The backend then executes the V3 agent pipeline.
-
-The demo medication pair includes:
-
-```text
-Warfarin
-Trimethoprim-Sulfamethoxazole
-```
-
-Expected visible output includes:
-
-```text
-Reconciled Medication Picture
-```
-
-with both medications represented as active/current medications.
-
-The interface should also display a:
-
-```text
-high-severity potential interaction
-```
-
-and a human-review warning.
-
-Representative safety output includes:
-
-```text
-needs_human_review: true
-```
+The same evaluation dataset is used for the baseline and agent-based systems so that comparisons remain fair.
 
 ---
 
-# 8. Evaluation Dataset
+# 7. Primary Evaluation Metric
 
-The project uses a fixed synthetic benchmark of:
-
-```text
-20 cases
-```
-
-The cases cover:
-
-- clean medication lists
-- dose conflicts
-- discontinuation
-- recently added medication
-- dose transitions
-- frequency transitions
-- route transitions
-- patient-reported conflicts
-- medication replacement
-- brand/generic normalization
-- missing medication attributes
-- ambiguous medication identity
-- multiple dose events
-- interaction screening
-- medication switching
-- medication restart
-- frequency conflict
-- irrelevant text
-- complex medication histories
-
-The same benchmark is used for comparison between major versions.
-
----
-
-# 9. Primary Evaluation Metric
-
-The main metric is:
+The primary metric is:
 
 ```text
 Medication Reconciliation F1
 ```
 
-A strict medication match requires agreement on:
+A reconciled medication prediction is evaluated using medication attributes including:
 
-```text
-medication identity
-dose
-frequency
-route
-status
-```
+* medication identity
+* dose
+* frequency
+* route
+* medication status
 
-Additional metrics include:
+Secondary metrics include:
 
-```text
-Medication Identity F1
-Dose Accuracy
-Frequency Accuracy
-Route Accuracy
-Status Accuracy
-Discrepancy F1
-Interaction F1
-```
+* Medication Identity F1
+* Dose Accuracy
+* Frequency Accuracy
+* Route Accuracy
+* Status Accuracy
+* Discrepancy F1
+* Interaction F1
 
 ---
 
-# 10. Running the Frozen V0 Baseline
+# 8. V0 — Simple Baseline
 
-From the repository root, run the existing baseline pipeline and evaluation scripts included in the repository.
+V0 represents the simple pre-agent baseline.
 
-Use the V0 scripts defined under:
+From the repository root, run:
 
-```text
-scripts/
+```bash
+python scripts/run_baseline.py
 ```
 
-The frozen baseline result is:
+Then evaluate the baseline:
+
+```bash
+python scripts/run_evaluation.py
+```
+
+Expected primary result:
 
 ```text
 Medication Reconciliation F1: 0.6000
-Medication Identity F1: 0.9667
-Dose Accuracy: 0.8621
-Frequency Accuracy: 1.0000
-Route Accuracy: 0.9655
-Status Accuracy: 0.6897
-Discrepancy F1: 0.8000
-Interaction F1: 0.0000
 ```
 
-The V0 baseline is intentionally frozen.
-
-It should not be modified when reproducing comparisons with later versions.
+This result is treated as the frozen baseline for comparison with the agentic workflow.
 
 ---
 
-# 11. Running V1
+# 9. V1 — First Agent Pipeline
 
-From the repository root, run:
+Run the first agent-based implementation:
 
 ```bash
 python scripts/run_agent_pipeline.py
 ```
 
-Then evaluate:
+Then run its evaluation:
 
 ```bash
 python scripts/run_agent_evaluation.py
 ```
 
-The primary V1 result is:
+Expected primary result:
 
 ```text
 Medication Reconciliation F1: 0.5902
 ```
 
-This result is intentionally retained even though it performs slightly worse than the frozen V0 baseline.
+V1 performed worse than the simple V0 baseline.
 
-Comparison:
+This experiment was not hidden or discarded from the evaluation history. It demonstrated that decomposing the task into agents did not automatically improve medication reconciliation.
 
-```text
-V0: 0.6000
-V1: 0.5902
-```
-
-This failed experiment motivated the transition-aware V2 design.
+The result informed the transition-aware and source-aware improvements made in V2.
 
 ---
 
-# 12. Running V2
+# 10. V2 — Improved Reconciliation Pipeline
 
-From the repository root, run:
+Run the V2 pipeline:
 
 ```bash
 python scripts/run_agent_v2_pipeline.py
 ```
 
-Then evaluate:
+Then evaluate V2:
 
 ```bash
 python scripts/run_agent_v2_evaluation.py
 ```
 
-Final frozen V2 metrics:
+The V2 development process improved reconciliation through multiple refinements.
+
+Recorded progression:
 
 ```text
-Medication Reconciliation F1: 0.7541
-Medication Identity F1: 0.9836
-Dose Accuracy: 0.9000
-Frequency Accuracy: 0.8667
-Route Accuracy: 1.0000
-Status Accuracy: 0.8333
-Discrepancy F1: 0.7273
-Interaction F1: 0.0000
+Initial V2 reconciliation:       0.6885
+Transition refinement:           0.7213
+Final source-aware V2:           0.7541
 ```
 
-The final V2 primary result is:
-
-```text
-Medication Reconciliation F1 = 0.7541
-```
+The final V2 result substantially exceeded the V0 baseline.
 
 ---
 
-# 13. Running V3
+# 11. V3 — Final Hackathon Pipeline
 
-V3 adds interaction screening after reconciliation.
-
-From the repository root, run:
-
-```bash
-python scripts/run_agent_v3_pipeline.py
-```
-
-Expected pipeline summary:
-
-```text
-V3 agent pipeline run complete.
-Completed: 20
-Failed: 0
-```
-
-Then run:
-
-```bash
-python scripts/run_agent_v3_evaluation.py
-```
-
-Expected final metrics:
-
-```text
-Medication Reconciliation F1: 0.7541
-Medication Identity F1: 0.9836
-Dose Accuracy: 0.9
-Frequency Accuracy: 0.8667
-Route Accuracy: 1.0
-Status Accuracy: 0.8333
-Discrepancy F1: 0.7273
-Interaction F1: 1.0
-```
-
----
-
-# 14. Version Comparison
-
-Expected comparison:
-
-```text
-V0 Medication Reconciliation F1: 0.6000
-V1 Medication Reconciliation F1: 0.5902
-V2 Medication Reconciliation F1: 0.7541
-V3 Medication Reconciliation F1: 0.7541
-```
-
-Final V3 improvement over V0:
-
-```text
-0.7541 - 0.6000 = +0.1541
-```
-
-Final V3 improvement over V1:
-
-```text
-0.7541 - 0.5902 = +0.1639
-```
-
-V3 change relative to V2:
-
-```text
-0.7541 - 0.7541 = 0.0000
-```
-
-This means V3 added interaction screening without reducing the final reconciliation score.
-
----
-
-# 15. V2 Iteration History
-
-The V2 development process included multiple measured iterations.
-
-Results:
-
-```text
-V2 Initial:
-0.6885
-
-V2 Transition Refinement:
-0.7213
-
-V2 Source-Aware:
-0.7541
-```
-
-These results are preserved in the experiment documentation.
-
-See:
-
-```text
-docs/10-improvement-changelog.md
-```
-
----
-
-# 16. V3 Interaction Test
-
-The representative interaction case is:
-
-```text
-SYN-015
-```
-
-The reconciled medications include:
-
-```text
-Trimethoprim-Sulfamethoxazole — current
-Warfarin — current
-```
-
-The interaction agent then checks the pair against:
-
-```text
-data/medications/interaction_knowledge.json
-```
-
-Expected interaction output contains fields including:
-
-```text
-type: drug_drug_interaction
-severity: high
-verification_status: knowledge_base_supported
-needs_human_review: true
-```
-
-The expected interaction metric is:
-
-```text
-Interaction F1 = 1.0000
-```
-
-This value represents performance only on the current synthetic benchmark and limited hackathon knowledge base.
-
-It is not a claim of comprehensive clinical drug-interaction coverage.
-
----
-
-# 17. Output Locations
-
-## V3 Per-Case Outputs
-
-```text
-outputs/evaluations/agent_v3/
-```
-
-Examples:
-
-```text
-outputs/evaluations/agent_v3/SYN-001.json
-outputs/evaluations/agent_v3/SYN-015.json
-```
-
-## Combined V3 Output
-
-```text
-outputs/evaluations/agent_v3_results.json
-```
-
-## Final V3 Metrics
-
-```text
-outputs/evaluations/agent_v3_metrics.json
-```
-
-Previous evaluation outputs are preserved for comparison where applicable.
-
----
-
-# 18. Interaction Knowledge Base
-
-The V3 interaction system uses:
-
-```text
-data/medications/interaction_knowledge.json
-```
-
-The knowledge base is deterministic and intentionally limited for hackathon evaluation.
-
-The interaction agent does not rely on unrestricted model memory as the authoritative source for interaction facts.
-
-This allows the same interaction test to produce reproducible results.
-
----
-
-# 19. Agent Execution Order
-
-The V3 pipeline executes:
-
-```text
-IntakeExtractionAgent
-        ↓
-MedicationIdentityAgent
-        ↓
-MedicationTimelineAgent
-        ↓
-MedicationReconciliationAgent
-        ↓
-MedicationInteractionAgent
-```
-
-The interaction agent receives reconciled medication information rather than raw medication mentions.
-
-This is intentional.
-
-The core architecture is:
-
-```text
-Reconcile first.
-Alert second.
-```
-
----
-
-# 20. Safety Reproduction
-
-The representative interaction finding should include:
-
-```text
-needs_human_review: true
-```
-
-The system does not autonomously:
-
-```text
-prescribe
-discontinue
-modify medication
-change dose
-replace medication
-make treatment decisions
-```
-
-A qualified healthcare professional remains responsible for consequential medication decisions.
-
----
-
-# 21. Reproducing Agent Trajectories
+V3 preserves the improved reconciliation pipeline and adds medication interaction screening after medication reconciliation.
 
 Run:
 
@@ -644,104 +263,136 @@ Run:
 python scripts/run_agent_v3_pipeline.py
 ```
 
-Then inspect the generated V3 case outputs and combined output.
-
-Representative trajectory documentation is also available at:
+Expected execution summary:
 
 ```text
-docs/11-agent-trajectories.md
+V3 agent pipeline run complete.
+Completed: 20
+Failed: 0
 ```
 
-The observable trajectory may include:
+Then run the final evaluation:
+
+```bash
+python scripts/run_agent_v3_evaluation.py
+```
+
+Expected key results:
 
 ```text
-agent execution
-structured input
-structured output
-tool calls
-tool results
-human checkpoints
-errors
+Medication Reconciliation F1: 0.7541
+Interaction F1: 1.0000
 ```
 
-The system does not require disclosure of hidden chain-of-thought.
+V3 preserves the final V2 reconciliation score while adding measurable medication interaction detection.
 
 ---
 
-# 22. Frontend Production Check
+# 12. Final Baseline Comparison
 
-From:
+The fixed evaluation benchmark produced the following progression:
+
+| Version                  | Medication Reconciliation F1 |
+| ------------------------ | ---------------------------: |
+| V0 Baseline              |                       0.6000 |
+| V1 Agent Pipeline        |                       0.5902 |
+| V2 Initial               |                       0.6885 |
+| V2 Transition Refinement |                       0.7213 |
+| V2 Source-Aware Final    |                       0.7541 |
+| V3 Final                 |                       0.7541 |
+
+Final absolute improvement over V0:
+
+```text
+0.7541 - 0.6000 = +0.1541
+```
+
+V3 also achieved:
+
+```text
+Interaction F1: 1.0000
+```
+
+This interaction score applies only to the limited synthetic interaction benchmark used in this hackathon and should not be interpreted as clinical validation.
+
+---
+
+# 13. Final V3 Metrics
+
+The final measured results include:
+
+```text
+Medication Reconciliation F1: 0.7541
+Medication Identity F1:       0.9836
+Dose Accuracy:                 0.9000
+Frequency Accuracy:            0.8667
+Route Accuracy:                1.0000
+Status Accuracy:               0.8333
+Discrepancy F1:                0.7273
+Interaction F1:                1.0000
+```
+
+---
+
+# 14. Evaluation Artifacts
+
+Final V3 case-level outputs are stored under:
+
+```text
+outputs/evaluations/agent_v3/
+```
+
+The combined V3 results are stored at:
+
+```text
+outputs/evaluations/agent_v3_results.json
+```
+
+Final evaluation metrics are stored at:
+
+```text
+outputs/evaluations/agent_v3_metrics.json
+```
+
+These artifacts provide evidence for the reported benchmark results.
+
+---
+
+# 15. Medication Interaction Knowledge Source
+
+The V3 interaction agent uses the deterministic medication interaction knowledge file:
+
+```text
+data/medications/interaction_knowledge.json
+```
+
+The Interaction Agent does not rely on unrestricted language-model memory to invent drug interaction facts.
+
+For the hackathon implementation, only interactions represented in the approved synthetic knowledge base are evaluated.
+
+Interaction findings are decision-support outputs and require qualified clinician or pharmacist review.
+
+---
+
+# 16. End-to-End Frontend Demo
+
+The frontend is located in:
 
 ```text
 frontend/
 ```
 
-run:
+Install its dependencies:
 
 ```bash
-npm run build
-```
-
-A successful build provides an additional verification that the frontend compiles correctly for production.
-
-The hackathon demo itself can still be run with:
-
-```bash
-npm run dev
-```
-
----
-
-# 23. Backend Test Check
-
-From:
-
-```text
-backend/
-```
-
-run:
-
-```bash
-python -m pytest
-```
-
-The tests should complete without failures before final submission.
-
----
-
-# 24. Clean Reproduction Sequence
-
-A clean reproduction can therefore be summarized as:
-
-```bash
-git clone https://github.com/kemisola1/medrecon-ai.git
-
-cd medrecon-ai
-
-cd backend
-python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-python -m pytest
-python -m uvicorn app.main:app --reload
-```
-
-Open a second terminal:
-
-```bash
-cd medrecon-ai\frontend
+cd frontend
 npm install
-npm run dev
 ```
 
-Open a third terminal from the repository root:
+Start the development server:
 
 ```bash
-cd medrecon-ai
-
-python scripts/run_agent_v3_pipeline.py
-python scripts/run_agent_v3_evaluation.py
+npm run dev
 ```
 
 Open:
@@ -750,106 +401,218 @@ Open:
 http://localhost:3000
 ```
 
-and click:
+The backend must also be running.
+
+In a separate terminal:
+
+```bash
+cd backend
+python -m uvicorn app.main:app --reload
+```
+
+The frontend sends a medication-reconciliation request to:
+
+```text
+http://127.0.0.1:8000/reconcile
+```
+
+Click:
 
 ```text
 Run MedRecon
 ```
 
----
-
-# 25. Expected Final Evidence
-
-A successful reproduction should demonstrate:
+The demo case contains:
 
 ```text
-20 V3 cases completed
-0 V3 pipeline failures
-Medication Reconciliation F1 = 0.7541
-Interaction F1 = 1.0000
-Frontend renders successfully
-Frontend can call the FastAPI backend
-Warfarin is reconciled
-Trimethoprim-Sulfamethoxazole is reconciled
-High-severity interaction finding appears
-Human-review warning appears
+Warfarin 5 mg orally once daily
+
+Trimethoprim-Sulfamethoxazole
+160/800 mg orally twice daily
 ```
 
----
+Expected output includes:
 
-# 26. Runtime and Cost Notes
+* a Reconciled Medication Picture
+* medication discrepancies where applicable
+* medication interaction findings
+* a high-severity interaction warning
+* evidence supporting the finding
+* a qualified human-review requirement
 
-The hackathon evaluation pipeline is designed to be reproducible locally.
-
-The current interaction lookup is deterministic and uses a local JSON knowledge base.
-
-No external production drug database is required to reproduce the submitted V3 interaction result.
-
-The current benchmark uses only 20 synthetic cases and is therefore intended as a hackathon-scale evaluation rather than a production workload benchmark.
-
-No claim is made that the current runtime, infrastructure, or knowledge-base coverage is suitable for clinical production use.
+This demonstrates the complete workflow from user interface to backend orchestration and final decision-support output.
 
 ---
 
-# 27. Known Limitations
+# 17. Production Frontend Build
 
-The reproduction environment demonstrates a research prototype.
+The frontend can be independently validated with:
 
-Important limitations include:
-
-```text
-synthetic data only
-small evaluation dataset
-limited medication vocabulary
-limited interaction knowledge base
-no real-patient validation
-no production EHR integration
-no production authentication
-no autonomous clinical verification
+```bash
+cd frontend
+npm run build
 ```
 
-These limitations should be preserved when interpreting the reported results.
+A successful build should finish without compilation failure and list the application routes.
 
 ---
 
-# 28. Supporting Documentation
+# 18. Backend Tests
 
-For additional detail:
+From the backend directory, run:
+
+```bash
+python -m pytest
+```
+
+During final submission validation, the project produced:
 
 ```text
-docs/08-evaluation.md
-docs/09-baseline.md
-docs/10-improvement-changelog.md
+2 passed
+```
+
+Warnings that do not fail the tests are not treated as successful functionality claims.
+
+---
+
+# 19. Agent Trajectories
+
+Representative observable trajectories for every implemented agent are documented in:
+
+```text
 docs/11-agent-trajectories.md
-docs/13-demo-script.md
+```
+
+Implemented agents are:
+
+1. Intake & Extraction Agent
+2. Medication Identity Agent
+3. Medication Timeline Agent
+4. Medication Reconciliation Agent
+5. Medication Interaction Agent
+
+The trajectories document observable inputs, outputs, tool interactions, evidence, failures, and human-review checkpoints.
+
+Hidden chain-of-thought is not recorded or presented as an agent trajectory.
+
+---
+
+# 20. Human Review and Safety
+
+MedRecon AI is a medication decision-support prototype.
+
+It does not autonomously:
+
+* prescribe medications
+* discontinue medications
+* modify medication orders
+* diagnose patients
+* execute treatment changes
+* replace a clinician or pharmacist
+
+The final output is described as a:
+
+```text
+Reconciled Medication Picture
+```
+
+rather than absolute clinical truth.
+
+Potential medication-safety findings require qualified clinician or pharmacist review before consequential action.
+
+All hackathon evaluation data are synthetic.
+
+---
+
+# 21. Approximate Runtime
+
+Runtime depends on the computer used.
+
+On a typical local development machine, the 20-case deterministic benchmark and evaluation scripts are designed to complete within a few minutes rather than requiring long-running model training.
+
+The project does not require model training to reproduce the submitted benchmark.
+
+---
+
+# 22. Reproduction Cost
+
+The submitted deterministic benchmark, reconciliation logic, interaction knowledge lookup, backend tests, and evaluation scripts can be reproduced locally without requiring paid external API calls.
+
+Therefore, the expected external API cost for reproducing the submitted benchmark is:
+
+```text
+Approximately $0
+```
+
+This does not include the ordinary cost of the user's own computer, internet connection, or optional external services that are not required for the benchmark.
+
+---
+
+# 23. Clean Reproduction Sequence
+
+A reviewer who wants to reproduce the main reported result can use this sequence from the repository root.
+
+### Baseline
+
+```bash
+python scripts/run_baseline.py
+python scripts/run_evaluation.py
+```
+
+Expected:
+
+```text
+Medication Reconciliation F1: 0.6000
+```
+
+### Final system
+
+```bash
+python scripts/run_agent_v3_pipeline.py
+python scripts/run_agent_v3_evaluation.py
+```
+
+Expected:
+
+```text
+Completed: 20
+Failed: 0
+Medication Reconciliation F1: 0.7541
+Interaction F1: 1.0000
+```
+
+The expected absolute reconciliation improvement is:
+
+```text
++0.1541
 ```
 
 ---
 
-## Final Reproduction Target
+# 24. Known Limitations
 
-The central reproducible result of the submission is:
+The hackathon prototype has important limitations:
 
-```text
-Frozen V0 Reconciliation F1 = 0.6000
+* evaluation uses synthetic data
+* the benchmark contains 20 cases
+* medication interaction coverage is intentionally limited
+* interaction performance has not been clinically validated
+* the system is not connected to a production EHR
+* the current UI is an MVP
+* medication findings still require qualified human review
 
-Final V3 Reconciliation F1 = 0.7541
+These limitations are deliberately disclosed rather than hidden.
 
-Final V3 Interaction F1 = 1.0000
-```
+---
 
-combined with a working end-to-end interface demonstrating:
+# 25. Core Finding
 
-```text
-source medication evidence
-→ extraction
-→ identity
-→ timeline
-→ reconciliation
-→ interaction screening
-→ human review
-```
+The experiments showed that merely splitting medication reconciliation across several agents was not enough to improve performance.
 
-This reproduces the core MedRecon AI principle:
+The largest improvement came from better handling of medication transitions, source evidence, and current medication state.
 
-> **Reconcile first. Alert second.**
+This leads to the central MedRecon principle:
+
+> Reconcile first. Alert second.
+
+Medication safety screening becomes more meaningful only after the system has established which medications are actually current.
