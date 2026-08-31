@@ -1,37 +1,86 @@
 """
-MedRecon AI FastAPI application.
+FastAPI application entry point for MedRecon AI.
 
-This is the entry point for the backend HTTP application.
+Purpose:
+    Expose the MedRecon V3 medication reconciliation pipeline through HTTP.
+
+Current endpoints:
+    GET  /health
+    POST /reconcile
+
+Safety:
+    MedRecon AI provides decision-support output only.
+
+    It does not prescribe, discontinue, or change medication therapy.
+    Consequential medication decisions require qualified human review.
 """
 
-from fastapi import FastAPI
+from __future__ import annotations
 
-from app.config import settings
+from typing import Any
+
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from app.services.orchestrator import MedReconOrchestrator
 
 
 app = FastAPI(
-    title=settings.app_name,
+    title="MedRecon AI",
+    version="3.0.0",
     description=(
-        "Agentic medication intelligence platform for "
-        "evidence-backed medication reconciliation."
+        "Medication reconciliation and interaction-screening "
+        "decision-support API."
     ),
-    version="0.1.0",
 )
 
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+orchestrator = MedReconOrchestrator()
+
+
 @app.get("/health")
-async def health_check() -> dict[str, str]:
+def health() -> dict[str, str]:
     """
-    Confirm that the MedRecon API is running.
-
-    Returns
-    -------
-    dict
-        A small status payload used by local development,
-        automated tests, and deployment health checks.
+    Basic API health check.
     """
-
     return {
         "status": "ok",
-        "service": settings.app_name,
+        "system": "MedRecon AI",
+        "pipeline_version": "V3",
     }
+
+
+@app.post("/reconcile")
+def reconcile_case(
+    case: dict[str, Any],
+) -> dict[str, Any]:
+    """
+    Run one medication reconciliation case through the V3 pipeline.
+
+    Input:
+        Synthetic or demo case containing:
+            case_id
+            sources
+
+    Output:
+        Reconciled medications
+        discrepancies
+        potential interaction findings
+        agent trajectories
+        execution metadata
+    """
+    return orchestrator.run_case(
+        case
+    )
