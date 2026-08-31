@@ -5,7 +5,7 @@ Purpose:
     Run specialized medication-reconciliation agents in the correct order
     and combine their outputs into one case-level result.
 
-Current V2 pipeline:
+Current pipeline:
     Raw case
         ->
     Intake & Extraction Agent
@@ -15,6 +15,8 @@ Current V2 pipeline:
     Medication Timeline Agent
         ->
     Medication Reconciliation Agent
+        ->
+    Medication Interaction Agent
 
 Why this service exists:
     Individual agents should remain narrow and independently testable.
@@ -27,7 +29,9 @@ Responsibilities:
     - pass structured outputs between agents
     - stop safely when an agent fails
     - preserve agent trajectories
-    - expose final reconciled medications and discrepancies
+    - expose final reconciled medications
+    - expose discrepancies
+    - expose knowledge-supported interaction findings
     - provide pipeline-level execution metadata
 
 Non-responsibilities:
@@ -35,22 +39,21 @@ Non-responsibilities:
     - hiding agent failures
     - modifying ground truth
     - performing evaluation
-    - screening drug-drug interactions at this stage
+    - autonomously resolving clinical decisions
 
 Safety:
     The pipeline produces decision-support output only.
 
+    Interaction screening occurs only after medication reconciliation.
+
+    Interaction findings come from the designated knowledge source rather
+    than model memory.
+
     Consequential medication decisions remain subject to qualified human
     review.
 
-V2 changes:
-    - improved extraction of explicit medication transitions
-    - preserves repeated mentions of the same medication within a source
-    - improves dose-change handling
-    - improves route-change handling
-    - avoids carrying incompatible historical attributes into a changed
-      medication regimen
-    - preserves unresolved medication identities for human verification
+Pipeline principle:
+    Reconcile first. Alert second.
 """
 
 from __future__ import annotations
@@ -69,6 +72,9 @@ from app.agents.identity_agent import (
 from app.agents.intake_agent import (
     IntakeExtractionAgent,
 )
+from app.agents.interaction_agent import (
+    MedicationInteractionAgent,
+)
 from app.agents.reconciliation_agent import (
     MedicationReconciliationAgent,
 )
@@ -79,17 +85,16 @@ from app.agents.timeline_agent import (
 
 class MedReconOrchestrator:
     """
-    Coordinate the MedRecon medication reconciliation pipeline.
+    Coordinate the MedRecon medication-reconciliation pipeline.
 
-    Current V2 agents:
+    Agents:
         1. IntakeExtractionAgent
         2. MedicationIdentityAgent
         3. MedicationTimelineAgent
         4. MedicationReconciliationAgent
+        5. MedicationInteractionAgent
 
-    Future agents can be inserted after reconciliation:
-        Discrepancy Agent
-        Interaction Agent
+    Future agents can be inserted after interaction screening:
         Verification Agent
         Prioritization Agent
     """
@@ -114,19 +119,16 @@ class MedReconOrchestrator:
             MedicationReconciliationAgent()
         )
 
+        self.interaction_agent = (
+            MedicationInteractionAgent()
+        )
+
     def _serialize_agent_result(
         self,
         result: AgentResult,
     ) -> dict[str, Any]:
         """
         Convert an AgentResult into JSON-safe trajectory data.
-
-        Args:
-            result:
-                Completed or failed agent execution.
-
-        Returns:
-            Serializable agent-run record.
 
         Important:
             Only observable trajectory information is stored.
@@ -143,10 +145,6 @@ class MedReconOrchestrator:
     ) -> None:
         """
         Ensure an agent completed successfully.
-
-        Args:
-            result:
-                Agent execution result.
 
         Raises:
             RuntimeError:
@@ -170,11 +168,7 @@ class MedReconOrchestrator:
         case: dict[str, Any],
     ) -> dict[str, Any]:
         """
-        Run the MedRecon V2 pipeline for one synthetic case.
-
-        Args:
-            case:
-                Raw synthetic medication-reconciliation case.
+        Run the MedRecon pipeline for one synthetic case.
 
         Returns:
             Case-level pipeline result containing:
@@ -189,8 +183,8 @@ class MedReconOrchestrator:
             failed result is returned.
 
         Safety:
-            The returned medication picture is decision-support information,
-            not an autonomous clinical action.
+            The returned medication picture and interaction findings are
+            decision-support information, not autonomous clinical actions.
         """
         case_id = case.get(
             "case_id"
@@ -290,6 +284,53 @@ class MedReconOrchestrator:
                 reconciliation_result
             )
 
+            reconciled_medications = (
+                reconciliation_result.output.get(
+                    "reconciled_medications",
+                    [],
+                )
+            )
+
+            discrepancies = (
+                reconciliation_result.output.get(
+                    "discrepancies",
+                    [],
+                )
+            )
+
+            # -------------------------------------------------------------
+            # 5. Medication Interaction Screening
+            # -------------------------------------------------------------
+            interaction_payload = {
+                "case_id": case_id,
+                "medications": (
+                    reconciled_medications
+                ),
+            }
+
+            interaction_result = (
+                self.interaction_agent.run(
+                    interaction_payload
+                )
+            )
+
+            agent_runs.append(
+                self._serialize_agent_result(
+                    interaction_result
+                )
+            )
+
+            self._ensure_success(
+                interaction_result
+            )
+
+            interactions = (
+                interaction_result.output.get(
+                    "interactions",
+                    [],
+                )
+            )
+
             completed_at = datetime.now(
                 timezone.utc
             )
@@ -305,18 +346,14 @@ class MedReconOrchestrator:
                     "completed"
                 ),
                 "medications": (
-                    reconciliation_result.output.get(
-                        "reconciled_medications",
-                        [],
-                    )
+                    reconciled_medications
                 ),
                 "discrepancies": (
-                    reconciliation_result.output.get(
-                        "discrepancies",
-                        [],
-                    )
+                    discrepancies
                 ),
-                "interactions": [],
+                "interactions": (
+                    interactions
+                ),
                 "agent_runs": (
                     agent_runs
                 ),
@@ -327,33 +364,33 @@ class MedReconOrchestrator:
                     completed_at.isoformat()
                 ),
                 "pipeline_version": (
-                    "V2"
+                    "V3"
                 ),
                 "notes": [
                     (
-                        "V2 preserves repeated medication "
-                        "mentions within a source so explicit "
-                        "medication transitions can be "
-                        "reconstructed."
+                        "Medication reconciliation is completed "
+                        "before interaction screening."
                     ),
                     (
-                        "V2 improves explicit dose, frequency, "
-                        "and route transition handling."
+                        "Repeated medication mentions and explicit "
+                        "medication transitions are preserved."
                     ),
                     (
-                        "V2 avoids carrying incompatible "
-                        "historical attributes into a changed "
-                        "medication regimen."
+                        "Source-aware status conflicts remain "
+                        "explicit and require verification."
                     ),
                     (
-                        "Ambiguous medication identities remain "
-                        "unresolved and are flagged for "
-                        "verification rather than guessed."
+                        "Interaction screening uses a designated "
+                        "deterministic knowledge source rather "
+                        "than model memory."
                     ),
                     (
-                        "Interaction screening and formal "
-                        "verification agents are not included "
-                        "yet."
+                        "Potential interactions are surfaced for "
+                        "qualified clinician or pharmacist review."
+                    ),
+                    (
+                        "Formal Verification and Prioritization "
+                        "Agents are not included yet."
                     ),
                 ],
             }
@@ -389,6 +426,6 @@ class MedReconOrchestrator:
                     completed_at.isoformat()
                 ),
                 "pipeline_version": (
-                    "V2"
+                    "V3"
                 ),
             }

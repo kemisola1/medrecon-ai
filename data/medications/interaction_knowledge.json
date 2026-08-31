@@ -1,0 +1,23 @@
+{
+    "knowledge_base_name": "MedRecon Synthetic Interaction Knowledge Base",
+    "version": "1.0",
+    "purpose": "Deterministic drug-drug interaction knowledge used for MedRecon AI synthetic evaluation.",
+    "disclaimer": "This knowledge base is for hackathon demonstration and synthetic evaluation only. Findings require qualified clinical review and must not be used as autonomous prescribing guidance.",
+    "interactions": [
+      {
+        "drug_a": "Warfarin",
+        "drug_b": "Trimethoprim-Sulfamethoxazole",
+        "severity": "high",
+        "interaction_type": "drug_drug_interaction",
+        "summary": "Concurrent use may increase the anticoagulant effect of warfarin and increase bleeding risk.",
+        "mechanism": "Trimethoprim-sulfamethoxazole may increase warfarin exposure and anticoagulant effect.",
+        "recommended_action": "Flag for qualified clinician or pharmacist review.",
+        "verification_status": "knowledge_base_supported",
+        "source": {
+          "source_type": "synthetic_approved_knowledge_base",
+          "source_name": "MedRecon Synthetic Interaction Knowledge Base",
+          "version": "1.0"
+        }
+      }
+    ]
+  }
