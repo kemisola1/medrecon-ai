@@ -6,6 +6,8 @@
 
 **Core principle:** Reconcile first. Alert second.
 
+**Primary users**: nurses, pharmacists, physicians, clinicians, and medication-reconciliation teams who need to review fragmented medication histories and establish the best-supported current medication picture before medication-safety decisions are made.
+
 ---
 
 ## The Problem
